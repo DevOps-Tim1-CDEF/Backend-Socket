@@ -43,7 +43,7 @@ exports.login = (req, res) => {
       if (!passwordIsValid) {
         return res.status(401).json({ message: "Password Salah" });
       } else {
-        let token = jwt.sign({ id: user.id }, process.env.JWT_KEY, {
+        let token = jwt.sign({ id: user.id }, "hidup#devops", {
           expiresIn: "12h",
         });
 
