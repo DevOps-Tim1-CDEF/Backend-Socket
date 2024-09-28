@@ -21,9 +21,21 @@ exports.register = (req, res) => {
       });
     })
     .catch((error) => {
+      let err = error.name;
+      let message = error.message;
+      
+      if (message.toLowerCase().includes('duplicate key')){
+        err = "Username/ Email Already Exist!";
+        message = "Please use another username or email to register your new account."
+      }
+      else if (message.toLowerCase().includes('validation')){
+        err = "Empty Field!";
+        message = "Please fill in your Registration info."
+      }
+
       res.status(500).json({
-        message: "Error",
-        data: error,
+        error: err,
+        message: message,
       });
     });
 };
