@@ -4,12 +4,14 @@ const mongoose = require("mongoose");
 const app = express();
 
 const userRoutes = require("./routes/user");
+const threadRoutes = require("./routes/thread");
 
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/user", userRoutes);
+app.use("/thread", threadRoutes);
 
 require("dotenv").config();
 
