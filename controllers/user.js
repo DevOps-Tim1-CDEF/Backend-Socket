@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const CryptoJs = require("crypto-js");
 const userModel = require("../models/user");
+const { generateToken } = require("../helpers/jwt");
 
 exports.register = (req, res) => {
   const user = new userModel({
@@ -59,9 +60,7 @@ exports.login = (req, res) => {
           message: "Wrong password. Please check again",
         });
       } else {
-        let token = jwt.sign({ id: user.id }, "hidup#devops", {
-          expiresIn: "12h",
-        });
+        let token = generateToken({ id: user.id });
 
         res.status(200).json({
           message: "Login Berhasil",
