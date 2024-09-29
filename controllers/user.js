@@ -21,21 +21,21 @@ exports.register = (req, res) => {
       });
     })
     .catch((error) => {
-      let err = error.name;
+      let title = error.name;
       let message = error.message;
       
       if (message.toLowerCase().includes('duplicate key')){
-        err = "Username/ Email Already Exist!";
+        title = "Username/Email Already Exist!";
         message = "Please use another username or email to register your new account."
       }
       else if (message.toLowerCase().includes('validation')){
-        err = "Empty Field!";
+        title = "Empty Field!";
         message = "Please fill in your Registration info."
       }
 
       res.status(500).json({
-        error: err,
-        message: message,
+        title,
+        message,
       });
     });
 };
@@ -45,7 +45,7 @@ exports.login = (req, res) => {
     if (!user) {
       res.status(404).json({
         title: "Login Failed!",
-        message: "Wrong username or password. Please check again",
+        message: "Wrong username. Please check again",
       });
     } else {
       let passwordIsValid = bcrypt.compareSync(
@@ -54,7 +54,10 @@ exports.login = (req, res) => {
       );
 
       if (!passwordIsValid) {
-        return res.status(401).json({ message: "Password Salah" });
+        return res.status(401).json({
+          title: "Login Failed!",
+          message: "Wrong password. Please check again",
+        });
       } else {
         let token = jwt.sign({ id: user.id }, "hidup#devops", {
           expiresIn: "12h",
