@@ -21,9 +21,21 @@ exports.register = (req, res) => {
       });
     })
     .catch((error) => {
+      let title = error.name;
+      let message = error.message;
+      
+      if (message.toLowerCase().includes('duplicate key')){
+        title = "Username/Email Already Exist!";
+        message = "Please use another username or email to register your new account."
+      }
+      else if (message.toLowerCase().includes('validation')){
+        title = "Empty Field!";
+        message = "Please fill in your Registration info."
+      }
+
       res.status(500).json({
-        message: "Error",
-        data: error,
+        title,
+        message,
       });
     });
 };
@@ -32,7 +44,8 @@ exports.login = (req, res) => {
   userModel.findOne({ username: req.body.username, active: 1 }).then((user) => {
     if (!user) {
       res.status(404).json({
-        message: "User Tidak Ditemukan",
+        title: "Login Failed!",
+        message: "Wrong username. Please check again",
       });
     } else {
       let passwordIsValid = bcrypt.compareSync(
@@ -41,7 +54,10 @@ exports.login = (req, res) => {
       );
 
       if (!passwordIsValid) {
-        return res.status(401).json({ message: "Password Salah" });
+        return res.status(401).json({
+          title: "Login Failed!",
+          message: "Wrong password. Please check again",
+        });
       } else {
         let token = jwt.sign({ id: user.id }, "hidup#devops", {
           expiresIn: "12h",
@@ -51,6 +67,7 @@ exports.login = (req, res) => {
           message: "Login Berhasil",
           token: token,
           idUser: user._id,
+          data: user,
         });
       }
     }

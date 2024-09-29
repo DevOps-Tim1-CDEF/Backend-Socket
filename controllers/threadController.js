@@ -94,7 +94,6 @@ exports.getThreads = async (req, res) => {
 // GET One Thread by ID and all its comment & replies
 exports.findThread = async (req, res) => {
   const queryId = req.params.id;
-  console.log(queryId);
   
   try {
     const datas = await threadModel.find({postId: queryId})
