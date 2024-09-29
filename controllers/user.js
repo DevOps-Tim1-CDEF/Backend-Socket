@@ -44,7 +44,8 @@ exports.login = (req, res) => {
   userModel.findOne({ username: req.body.username, active: 1 }).then((user) => {
     if (!user) {
       res.status(404).json({
-        message: "User Tidak Ditemukan",
+        title: "Login Failed!",
+        message: "Wrong username or password. Please check again",
       });
     } else {
       let passwordIsValid = bcrypt.compareSync(
@@ -63,6 +64,7 @@ exports.login = (req, res) => {
           message: "Login Berhasil",
           token: token,
           idUser: user._id,
+          data: user,
         });
       }
     }
