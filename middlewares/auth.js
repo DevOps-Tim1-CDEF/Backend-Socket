@@ -5,7 +5,10 @@ exports.authentication = async (req, res, next) => {
   const token = req.headers["authorization"];
   
   if (!token){
-    return res.status(401).json({message: "Token not provided"});
+    return res.status(401).json({
+      title: "Authentication Error",
+      message: "Token not provided, please relogin"
+    });
   }
 
   try{
@@ -14,14 +17,21 @@ exports.authentication = async (req, res, next) => {
       _id: decode.id,
       active: 1,
     });
-    if (user){
+    if (user){      
+      if (user._id.toString() !== req.body.author){
+        throw {
+          code: 401,
+          title: "Authentication Error",
+          message: `Token mismatch, please relogin`,
+        }
+      }
       req.userData = user;
       next();
     }
     else{
       throw {
         code: 401,
-        name: "Authentication Error",
+        title: "Authentication Error",
         message: `User with id ${decode.id} not found in database`,
       }
     }
