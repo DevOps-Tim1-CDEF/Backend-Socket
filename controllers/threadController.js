@@ -49,14 +49,14 @@ exports.postThread = async (req, res) => {
         { "_id": thread._id },
         { $set: {"postId": thread._id} },
         { new: true }
-      ).populate('author')
+      ).populate('author').populate('snippet')
       res.json({
         message,
         data: newPost,
       });
     }
     else{
-      const newComment = await threadModel.findOne({ "_id": thread._id} ).populate('author')
+      const newComment = await threadModel.findOne({ "_id": thread._id} ).populate('author').populate('snippets')
       res.json({
         message,
         data: newComment,
