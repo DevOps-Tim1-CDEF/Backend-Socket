@@ -44,22 +44,22 @@ exports.postThread = async (req, res) => {
 
   try {
     const thread = await new threadModel(data).save();
-  
     if (isPost){
       const newPost = await threadModel.findOneAndUpdate(
         { "_id": thread._id },
         { $set: {"postId": thread._id} },
         { new: true }
-      )
+      ).populate('author')
       res.json({
         message,
         data: newPost,
       });
     }
     else{
+      const newComment = await threadModel.findOne({ "_id": thread._id} ).populate('author')
       res.json({
         message,
-        data: thread,
+        data: newComment,
       });
     }
   } catch (error) {
