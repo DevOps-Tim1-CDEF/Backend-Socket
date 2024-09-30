@@ -10,7 +10,7 @@ exports.postThread = async (req, res) => {
   let isPost = true;
 
   // Add reply/comment attributes
-  if ("depth" in req.body) {
+  if ("depth" in req.body && req.body.depth != 1) {
     isPost = false;
     data.depth = req.body.depth;
     message = "Reply Created";
@@ -30,7 +30,7 @@ exports.postThread = async (req, res) => {
   }
 
   // Add snippets
-  if ("snippets" in req.body){
+  if ("snippets" in req.body && req.body.snippets.length != 0){
     try {
       const snippets = await snippetModel.insertMany(req.body.snippets);
       data.snippets = snippets.map(snippet => snippet._id);
@@ -44,28 +44,29 @@ exports.postThread = async (req, res) => {
 
   try {
     const thread = await new threadModel(data).save();
-  
     if (isPost){
       const newPost = await threadModel.findOneAndUpdate(
         { "_id": thread._id },
         { $set: {"postId": thread._id} },
         { new: true }
-      )
+      ).populate('author').populate('snippets')
       res.json({
         message,
         data: newPost,
       });
     }
     else{
+      const newComment = await threadModel.findOne({ "_id": thread._id} ).populate('author').populate('snippets')
       res.json({
         message,
-        data: thread,
+        data: newComment,
       });
     }
   } catch (error) {
     res.status(500).json({
-      message: "Error",
-      data: error,
+      title: "Error when posting",
+      message: 'Please try again',
+      error: error
     });
   }
 };
@@ -85,8 +86,9 @@ exports.getThreads = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      message: "Error",
-      data: error,
+      title: "Error when retrieving all threads",
+      message: 'Please try again',
+      error: error,
     });
   }
 };
@@ -108,8 +110,9 @@ exports.findThread = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      message: "Error",
-      data: error,
+      title: "Error when retrieving the thread",
+      message: 'Please try again',
+      error: error,
     });
   }
 };
