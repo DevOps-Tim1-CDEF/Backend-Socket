@@ -74,7 +74,7 @@ exports.postThread = async (req, res) => {
 // GET All Posts (without the comment & reply)
 exports.getThreads = async (req, res) => {
   try {
-    const datas = await threadModel.find({parentId: null})
+    const datas = await threadModel.find({ parentId: null, contents: new RegExp(req.body.filter || "", "i") })
       .sort({time: 1}).lean()
       .populate('author')
       .populate('snippets')
