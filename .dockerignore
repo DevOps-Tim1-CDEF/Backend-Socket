@@ -1,4 +1,2 @@
-./node_modules
+node_modules
 Dockerfile
-.dockerignore
-docker-compose.yml
