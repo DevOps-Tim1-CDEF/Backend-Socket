@@ -15,6 +15,7 @@ spec:
       containers:
         - name: stuckoverbug-server
           image: r10f/stuckoverbug-server:main
+          imagePullPolicy: Always
           ports:
             - containerPort: 2500
 ---
