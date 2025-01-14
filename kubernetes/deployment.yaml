@@ -19,7 +19,7 @@ spec:
           resources:
             requests:
               cpu: 5m
-          # imagePullPolicy: Always
+          imagePullPolicy: Always
           ports:
             - containerPort: 2500
 ---
