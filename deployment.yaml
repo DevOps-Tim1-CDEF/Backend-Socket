@@ -1,7 +1,9 @@
+# DEPLOYMENT
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: stuckoverbug-server
+  namespace: server
 spec:
   selector:
     matchLabels:
@@ -16,15 +18,17 @@ spec:
           image: r10f/stuckoverbug-server:main
           resources:
             requests:
-              cpu: 10m
-          imagePullPolicy: Always
+              cpu: 5m
+          # imagePullPolicy: Always
           ports:
             - containerPort: 2500
 ---
+# Service
 apiVersion: v1
 kind: Service
 metadata:
   name: stuckoverbug-server
+  namespace: server
 spec:
   type: NodePort
   ports:
@@ -35,21 +39,23 @@ spec:
   selector:
     app: stuckoverbug-server
 ---
+# HPA
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: stuckoverbug-server
+  namespace: server
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: stuckoverbug-server
   minReplicas: 2
-  maxReplicas: 10
+  maxReplicas: 15
   metrics: # Corrected indentation here
     - type: Resource
       resource:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: 30
+          averageUtilization: 50

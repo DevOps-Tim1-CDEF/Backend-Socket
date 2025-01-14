@@ -3,4 +3,4 @@
 3. Jika saat melakukan perintah kubectl get hpa status cpu unknown maka lakukan langkah selanjutnya
 4. lakukan pengecekan terlebih dahulu apakah metrics server sudah berjalan dengan perintah kubectl get pods -n kube-system
 5. jika ada & running kita hapus terlebih dahulu nanti akan sekalian auto rebuild dengan perintah kubectl delete pod <nama pod> -n kube-system 
-6. tunggu sampai benar-benar menyala kemudian cek kembali status cpu hpa dengan kubectl get hpa seharusnya sudah bisa menampilkan 
+6. tunggu sampai benar-benar menyala kemudian cek kembali status cpu hpa dengan kubectl get hpa seharusnya sudah bisa menampilkan

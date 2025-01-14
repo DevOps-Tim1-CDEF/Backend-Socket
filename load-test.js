@@ -3,19 +3,16 @@ import { check, sleep } from "k6";
 
 export let options = {
   stages: [
-    { duration: "10s", target: 10000 },
-    { duration: "15s", target: 20000 },
-    { duration: "20s", target: 30000 },
-    { duration: "25s", target: 40000 },
-    { duration: "30s", target: 50000 },
-    { duration: "35s", target: 60000 },
-    { duration: "40s", target: 70000 },
+    { duration: "30s", target: 2500 },
+    { duration: "2m", target: 5000 },
+    { duration: "3m", target: 5500 },
+    { duration: "20s", target: 1500 },
   ],
 };
 
 export default function () {
   // Replace with the actual endpoint of your Express application
-  let res = http.post("http://localhost:30001/thread"); // e.g., http://localhost:3000/
+  let res = http.post("http://localhost:2500/thread"); // e.g., http://localhost:3000/
 
   // Check if the response status is 200
   check(res, {
