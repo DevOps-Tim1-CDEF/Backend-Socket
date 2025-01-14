@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/DevOps-Tim1-CDEF/Backend-Socket.git
     targetRevision: HEAD
-    path: routes
+    path: kubernetes
   destination:
     server: https://kubernetes.default.svc
     namespace: server
