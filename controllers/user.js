@@ -24,14 +24,14 @@ exports.register = (req, res) => {
     .catch((error) => {
       let title = error.name;
       let message = error.message;
-      
-      if (message.toLowerCase().includes('duplicate key')){
+
+      if (message.toLowerCase().includes("duplicate key")) {
         title = "Username/Email Already Exist!";
-        message = "Please use another username or email to register your new account."
-      }
-      else if (message.toLowerCase().includes('validation')){
+        message =
+          "Please use another username or email to register your new account.";
+      } else if (message.toLowerCase().includes("validation")) {
         title = "Empty Field!";
-        message = "Please fill in your Registration info."
+        message = "Please fill in your Registration info.";
       }
 
       res.status(500).json({
