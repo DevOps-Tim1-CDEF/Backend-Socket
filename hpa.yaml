@@ -8,8 +8,8 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: stuckoverbug-server
-  minReplicas: 2
-  maxReplicas: 15
+  minReplicas: 5
+  maxReplicas: 30
   metrics: # Corrected indentation here
     - type: Resource
       resource:
