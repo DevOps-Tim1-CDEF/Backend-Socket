@@ -28,5 +28,5 @@ mongoose
 
 app.listen("2500", () => {
   console.log("Server is running on port 2500");
-  console.log("Ini Percobaan Tes Argo");
+  // console.log("Ini Percobaan Tes Argo");
 });
