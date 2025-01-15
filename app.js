@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  res.send("Welcome to DevOps Tim 1 - last update 15/01/2025 Coba Lagi lah");
+  res.send("Welcome to DevOps Tim 1 - Testing argocd");
 });
 app.use("/user", userRoutes);
 app.use("/thread", threadRoutes);
